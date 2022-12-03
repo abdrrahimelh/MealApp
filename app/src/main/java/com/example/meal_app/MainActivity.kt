@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        recyclerView = findViewById(R.id.recycler_view)
+        recyclerView = findViewById(R.id.recyclerView_categories)
 
         val url = URL("https://www.themealdb.com/api/json/v1/1/categories.php")
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     val categoryResponse = gson.fromJson(it, CategoryResponse::class.java)
                     categoryResponse.categories?.let { it1 ->
                         runOnUiThread {
-                            categoriesAdapter = CategoryAdapter(it1)
+                            categoriesAdapter = CategoryAdapter(applicationContext,it1)
                             recyclerView.adapter = categoriesAdapter
                             recyclerView.layoutManager = LinearLayoutManager(applicationContext)
                         }
