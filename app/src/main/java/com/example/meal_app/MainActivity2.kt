@@ -18,11 +18,13 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recipesAdapter: RecipeAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
+        val category = intent.getStringExtra("category")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         recyclerView = findViewById(R.id.recycler_view)
 
-        val url = URL("https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood")
+        val url = URL("https://www.themealdb.com/api/json/v1/1/filter.php?c=" +
+                category)
 
         val request = Request.Builder()
             .url(url)
