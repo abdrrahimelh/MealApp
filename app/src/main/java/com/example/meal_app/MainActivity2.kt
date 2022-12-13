@@ -21,8 +21,7 @@ class MainActivity2 : AppCompatActivity() {
         val category = intent.getStringExtra("category")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
-        recyclerView = findViewById(R.id.recycler_view)
-
+        recyclerView = findViewById(R.id.recyclerView_recipes)
         val url = URL("https://www.themealdb.com/api/json/v1/1/filter.php?c=" +
                 category)
 
@@ -43,7 +42,7 @@ class MainActivity2 : AppCompatActivity() {
                     val recipeResponse = gson.fromJson(it, RecipeResponse::class.java)
                     recipeResponse.recipes?.let { it1 ->
                         runOnUiThread {
-                            recipesAdapter = RecipeAdapter(it1)
+                            recipesAdapter = RecipeAdapter(applicationContext,it1)
                             recyclerView.adapter = recipesAdapter
                             recyclerView.layoutManager = LinearLayoutManager(applicationContext)
                         }
