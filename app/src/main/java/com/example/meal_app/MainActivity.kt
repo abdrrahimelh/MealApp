@@ -3,6 +3,7 @@ package com.example.meal_app
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meal_app.categories.CategoryAdapter
@@ -13,10 +14,10 @@ import okhttp3.*
 import java.io.IOException
 import java.net.URL
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , CategoryAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var categoriesAdapter: CategoryAdapter
-
+    private lateinit var categoryResponse:CategoryResponse
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,10 +39,10 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let {
                     val gson = Gson()
-                    val categoryResponse = gson.fromJson(it, CategoryResponse::class.java)
+                    categoryResponse = gson.fromJson(it, CategoryResponse::class.java)
                     categoryResponse.categories?.let { it1 ->
                         runOnUiThread {
-                            categoriesAdapter = CategoryAdapter(applicationContext,it1)
+                            categoriesAdapter = CategoryAdapter(applicationContext,it1,this@MainActivity)
                             recyclerView.adapter = categoriesAdapter
                             recyclerView.layoutManager = LinearLayoutManager(applicationContext)
                         }
@@ -51,6 +52,19 @@ class MainActivity : AppCompatActivity() {
                 }
                 }
             })
+
+    }
+
+    override fun onItemClick(position: Int) {
+        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
+        if (categoryResponse.categories?.get(position)?.isLiked==false){
+            categoryResponse.categories?.get(position)?.isLiked=true
+            categoriesAdapter.notifyItemChanged(position)
+        }
+        else {
+            categoryResponse.categories?.get(position)?.isLiked=false
+            categoriesAdapter.notifyItemChanged(position)
+        }
 
     }
 

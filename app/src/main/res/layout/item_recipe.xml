@@ -37,6 +37,7 @@
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/star_off"
+        android:contentDescription="off"
         tools:layout_editor_absoluteX="306dp"
         tools:layout_editor_absoluteY="12dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

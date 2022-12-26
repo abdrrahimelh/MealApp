@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.meal_app.MainActivity2
 import com.example.meal_app.R
-import com.example.meal_app.categories.CategoryViewHolder
 
 
 class RecipeViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -27,6 +26,7 @@ class RecipeAdapter(private val context: Context, val recipes: List<Recipe>): Re
         return RecipeViewHolder(itemView)
     }
 
+
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
             holder.nameTextView.setText(recipes.get(position).strMeal)
             with(holder) {
@@ -40,8 +40,19 @@ class RecipeAdapter(private val context: Context, val recipes: List<Recipe>): Re
             //    intent.putExtra("category",recipes.get(position).strMeal)
               //  context.startActivity(intent)
             //}
+
+
             holder.like_button.setOnClickListener {
-                holder.like_button.setImageResource(R.drawable.star_on)
+
+                if (holder.like_button.contentDescription=="off"){
+                    holder.like_button.setImageResource(R.drawable.star_on)
+                    holder.like_button.contentDescription="on"
+                }
+                else {
+                    holder.like_button.setImageResource(R.drawable.star_off)
+                    holder.like_button.contentDescription="off"
+                }
+
             }
 
 
