@@ -40,6 +40,7 @@ class CategoryAdapter(private val context: Context,val categories: List<Category
        }
         holder.categoryImage.setOnClickListener{
             val intent = Intent(context,MainActivity2::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("category",categories.get(position).strCategory)
             context.startActivity(intent)
         }

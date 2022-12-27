@@ -1,5 +1,6 @@
 package com.example.meal_app
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var recipesAdapter: RecipeAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         val category = intent.getStringExtra("category")
+        //val category = "Beef"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         recyclerView = findViewById(R.id.recyclerView_recipes)
