@@ -1,4 +1,4 @@
-package com.example.meal_app.recipes
+package com.example.meal_app.description
 
 import com.google.gson.annotations.SerializedName
 
@@ -55,6 +55,4 @@ class Description {
     var strMeasure18: String? = null
     var strMeasure19: String? = null
     var strMeasure20: String? = null
-
-
 }

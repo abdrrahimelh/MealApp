@@ -28,7 +28,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".MainActivity2" android:label="recipe"></activity>
+        <activity android:name=".MainActivity2" android:label="Recipes"></activity>
+        <activity android:name=".MainActivity3" android:label="Description"></activity>
     </application>
 
 </manifest>

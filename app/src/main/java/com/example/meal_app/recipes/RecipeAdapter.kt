@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.meal_app.MainActivity2
+import com.example.meal_app.MainActivity3
 import com.example.meal_app.R
 import com.example.meal_app.categories.CategoryViewHolder
 
@@ -35,11 +36,12 @@ class RecipeAdapter(private val context: Context, val recipes: List<Recipe>): Re
                     .into(recipeImage)
 
             }
-           // holder.recipeImage.setOnClickListener{
-            //    val intent = Intent(context, MainActivity3::class.java)
-            //    intent.putExtra("category",recipes.get(position).strMeal)
-              //  context.startActivity(intent)
-            //}
+        holder.recipeImage.setOnClickListener{
+            val intent = Intent(context, MainActivity3::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putExtra("strMeal",recipes.get(position).strMeal)
+            context.startActivity(intent)
+        }
             holder.like_button.setOnClickListener {
                 holder.like_button.setImageResource(R.drawable.star_on)
             }
