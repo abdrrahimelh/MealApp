@@ -1,9 +1,11 @@
 package com.example.meal_app
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meal_app.recipes.RecipeAdapter
@@ -14,9 +16,10 @@ import okhttp3.*
 import java.io.IOException
 import java.net.URL
 
-class MainActivity2 : AppCompatActivity() {
+class MainActivity2 : AppCompatActivity(),RecipeAdapter.OnItemClickListener  {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recipesAdapter: RecipeAdapter
+    private lateinit var recipeResponse:RecipeResponse
     override fun onCreate(savedInstanceState: Bundle?) {
         val category = intent.getStringExtra("category")
         super.onCreate(savedInstanceState)
@@ -39,10 +42,10 @@ class MainActivity2 : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let {
                     val gson = Gson()
-                    val recipeResponse = gson.fromJson(it, RecipeResponse::class.java)
+                    recipeResponse = gson.fromJson(it, RecipeResponse::class.java)
                     recipeResponse.recipes?.let { it1 ->
                         runOnUiThread {
-                            recipesAdapter = RecipeAdapter(applicationContext,it1)
+                            recipesAdapter = RecipeAdapter(applicationContext,it1,this@MainActivity2)
                             recyclerView.adapter = recipesAdapter
                             recyclerView.layoutManager = LinearLayoutManager(applicationContext)
                         }
@@ -54,5 +57,25 @@ class MainActivity2 : AppCompatActivity() {
         })
 
     }
+    override fun onItemClick(position: Int) {
 
+        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
+        if (recipeResponse.recipes?.get(position)?.isLiked==false){
+            getSharedPreferences("Recipes", Context.MODE_PRIVATE).edit().apply{
+                putBoolean(recipeResponse.recipes?.get(position)?.idMeal,true)
+                apply()
+            }
+            recipeResponse.recipes?.get(position)?.isLiked=true
+            recipesAdapter.notifyItemChanged(position)
+        }
+        else {
+            getSharedPreferences("Recipes", Context.MODE_PRIVATE).edit().apply{
+                putBoolean(recipeResponse.recipes?.get(position)?.idMeal,false)
+                apply()
+            }
+            recipeResponse.recipes?.get(position)?.isLiked=false
+            recipesAdapter.notifyItemChanged(position)
+        }
+
+    }
 }

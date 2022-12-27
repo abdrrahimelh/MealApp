@@ -1,5 +1,6 @@
 package com.example.meal_app
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity() , CategoryAdapter.OnItemClickListener {
         val request = Request.Builder()
             .url(url)
             .build()
-
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
 
@@ -58,10 +58,18 @@ class MainActivity : AppCompatActivity() , CategoryAdapter.OnItemClickListener {
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
         if (categoryResponse.categories?.get(position)?.isLiked==false){
+            getSharedPreferences("Categories", Context.MODE_MULTI_PROCESS).edit().apply{
+                putBoolean(categoryResponse.categories?.get(position)?.idCategory,true)
+                apply()
+            }
             categoryResponse.categories?.get(position)?.isLiked=true
             categoriesAdapter.notifyItemChanged(position)
         }
         else {
+            getSharedPreferences("Categories", Context.MODE_PRIVATE).edit().apply{
+                putBoolean(categoryResponse.categories?.get(position)?.idCategory,false)
+                apply()
+            }
             categoryResponse.categories?.get(position)?.isLiked=false
             categoriesAdapter.notifyItemChanged(position)
         }
