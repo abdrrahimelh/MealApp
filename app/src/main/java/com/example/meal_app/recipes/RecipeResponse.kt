@@ -13,4 +13,5 @@ class Recipe {
     var strMeal: String? = null
     var strMealThumb: String? = null
     var idMeal: String? = null
+    var isLiked : Boolean?=false
 }
