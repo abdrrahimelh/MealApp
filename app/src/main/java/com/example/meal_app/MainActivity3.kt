@@ -14,15 +14,20 @@ import java.net.URL
 
 
 class MainActivity3 : AppCompatActivity() {
-    private  lateinit var textView: TextView
+    private  lateinit var textViewInstructions: TextView
+    private  lateinit var textYoutube: TextView
+    private  lateinit var textViewCategory: TextView
+    private  lateinit var textViewRecipe: TextView
     private lateinit var imageView: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         val idMeal = intent.getStringExtra("idMeal")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main3)
-        textView = findViewById(R.id.descriptionName)
-        textView.setMovementMethod(ScrollingMovementMethod())
-        imageView = findViewById(R.id.image)
+        textViewInstructions = findViewById(R.id.Instructions)
+        textViewInstructions.setMovementMethod(ScrollingMovementMethod())
+        textYoutube = findViewById(R.id.URL)
+        textViewCategory= findViewById(R.id.Category)
+        textViewRecipe = findViewById(R.id.Recipe)
 
 
         val url = URL("https://www.themealdb.com/api/json/v1/1/lookup.php?i="+ idMeal)
@@ -45,14 +50,13 @@ class MainActivity3 : AppCompatActivity() {
                     val descriptionResponse = gson.fromJson(it, DescriptionResponse::class.java)
                     Log.d("OKHTTP", "Got " + descriptionResponse.description?.count() +  " results")
                     Log.d("OKHTTP", "Got " + descriptionResponse.description?.get(0)?.strCategory +  " results")
-                    val text = descriptionResponse.description?.get(0)?.strCategory + " : " + "\n\n"  + descriptionResponse.description?.get(0)?.strMeal + "\n\n\n***********************\n\n\n" +
-                            "You can click on the link below to see the full video on Youtube : "+ "\n" + descriptionResponse.description?.get(0)?.strYoutube + "\n\n\n***********************\n\n\n" +
-                            "STEP-BY-STEP INSTRUCTIONS\n\n\n " + descriptionResponse.description?.get(0)?.strInstructions
+
                     runOnUiThread {
 
-                        textView.text  = text;
-
-
+                        textViewInstructions.text  = descriptionResponse.description?.get(0)?.strInstructions;
+                        textYoutube.text = descriptionResponse.description?.get(0)?.strYoutube;
+                        textViewCategory.text = descriptionResponse.description?.get(0)?.strCategory;
+                        textViewRecipe.text = descriptionResponse.description?.get(0)?.strMeal;
 
 
                     }
