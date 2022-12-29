@@ -7,7 +7,10 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.meal_app.description.DescriptionResponse
+import com.example.meal_app.recipes.RecipeAdapter
+import com.example.meal_app.recipes.RecipeResponse
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.*
@@ -43,14 +46,12 @@ class MainActivity3 : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let {
                     val gson = Gson()
-                    Log.d("RECEIVED", gson.toString())
+                    val descriptionResponse = gson.fromJson(it, DescriptionResponse::class.java)
+                    Log.d("OKHTTP", "Got " + descriptionResponse.description?.count() +  " results")
+                    textView.text = "HELLOOOOO"
                 }
-                    Log.d("OKHTTP", "Got results")
-                }
 
-
-
-
-    })
+    }
+})
     }
 }

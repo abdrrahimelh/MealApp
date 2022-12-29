@@ -1,11 +1,12 @@
 package com.example.meal_app.description
 
+import com.example.meal_app.recipes.Recipe
 import com.google.gson.annotations.SerializedName
 
 class DescriptionResponse {
 
     @SerializedName("meals")
-    var description: Description ?= null
+    var description: List<Description>? = null
 }
 
 class Description {
@@ -55,4 +56,8 @@ class Description {
     var strMeasure18: String? = null
     var strMeasure19: String? = null
     var strMeasure20: String? = null
+    var strSource: String? = null
+    var strImageSource: String? = null
+    var strCreativeCommonsConfirmed:String?=null
+    var dateModified: String? = null
 }
