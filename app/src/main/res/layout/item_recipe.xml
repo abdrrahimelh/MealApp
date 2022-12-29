@@ -43,7 +43,9 @@
                     android:fontFamily="sans-serif-condensed"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="16dp" />
+                    tools:layout_editor_absoluteY="16dp"
+                    android:scrollbars = "vertical"
+                    />
                 <ImageView
                     android:id="@+id/recipe_image"
                     android:layout_width="100dp"

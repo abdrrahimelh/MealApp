@@ -39,7 +39,7 @@ class RecipeAdapter(private val context: Context, val recipes: List<Recipe>): Re
         holder.recipeImage.setOnClickListener{
             val intent = Intent(context, MainActivity3::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.putExtra("strMeal",recipes.get(position).strMeal)
+            intent.putExtra("idMeal",recipes.get(position).idMeal)
             context.startActivity(intent)
         }
             holder.like_button.setOnClickListener {
