@@ -3,6 +3,7 @@ package com.example.meal_app.categories
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,15 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.meal_app.MainActivity2
 import com.example.meal_app.R
 
-
-
-class CategoryViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
-    var nameTextView: TextView = itemView.findViewById(R.id.textview_name)
-    var categoryImage: ImageView = itemView.findViewById(R.id.category_image)
-    var like_button: ImageView = itemView.findViewById(R.id.like_category_image)
-}
-
-class CategoryAdapter(private val context: Context,val categories: List<Category>): RecyclerView.Adapter<CategoryViewHolder>() {
+class CategoryAdapter(private val context: Context,val categories: List<Category>,private val listener: OnItemClickListener): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_category, parent, false)
         return CategoryViewHolder(itemView)
@@ -31,6 +24,7 @@ class CategoryAdapter(private val context: Context,val categories: List<Category
 
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        val myItem = categories[position]
         holder.nameTextView.setText(categories.get(position).strCategory)
        with(holder) {
            Glide.with(context)
@@ -38,19 +32,50 @@ class CategoryAdapter(private val context: Context,val categories: List<Category
                .into(categoryImage)
 
        }
+        context.getSharedPreferences("Categories", Context.MODE_PRIVATE)
+            .getBoolean(myItem.idCategory, false).let{
+                if (!it){
+                    holder.like_button.setImageResource(R.drawable.heart_off)
+                }
+                else {
+                    holder.like_button.setImageResource(R.drawable.heart_on)
+                }
+
+
+            }
+
         holder.categoryImage.setOnClickListener{
             val intent = Intent(context,MainActivity2::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("category",categories.get(position).strCategory)
             context.startActivity(intent)
+
         }
-           holder.like_button.setOnClickListener {
-               holder.like_button.setImageResource(R.drawable.heart_on)
-           }
+
+
 
     }
 
     override fun getItemCount(): Int {
         return categories.count()
+    }
+    inner class CategoryViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener {
+        var nameTextView: TextView = itemView.findViewById(R.id.textview_name)
+        var categoryImage: ImageView = itemView.findViewById(R.id.category_image)
+        var like_button: ImageView = itemView.findViewById(R.id.like_category_image)
+        init {
+            like_button.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }
