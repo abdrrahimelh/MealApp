@@ -3,6 +3,7 @@ package com.example.meal_app.categories
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,18 +32,26 @@ class CategoryAdapter(private val context: Context,val categories: List<Category
                .into(categoryImage)
 
        }
+        context.getSharedPreferences("Categories", Context.MODE_PRIVATE)
+            .getBoolean(myItem.idCategory, false).let{
+                if (!it){
+                    holder.like_button.setImageResource(R.drawable.heart_off)
+                }
+                else {
+                    holder.like_button.setImageResource(R.drawable.heart_on)
+                }
+
+
+            }
+
         holder.categoryImage.setOnClickListener{
             val intent = Intent(context,MainActivity2::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("category",categories.get(position).strCategory)
             context.startActivity(intent)
+
         }
 
-               if (myItem.isLiked == false){
-                   holder.like_button.setImageResource(R.drawable.heart_off)
-               }
-               else {
-                   holder.like_button.setImageResource(R.drawable.heart_on)
-               }
 
 
     }
