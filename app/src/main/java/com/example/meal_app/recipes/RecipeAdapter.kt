@@ -45,7 +45,7 @@ class RecipeAdapter(private val context: Context, val recipes: List<Recipe>,priv
               //  context.startActivity(intent)
             //}
         context.getSharedPreferences("Recipes", Context.MODE_PRIVATE)
-            .getBoolean(myItem.idMeal, false).let{
+            .getBoolean(myItem.strMeal, false).let{
                 if (!it){
                     holder.like_button.setImageResource(R.drawable.star_off)
                 }
