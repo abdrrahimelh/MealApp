@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.view.isGone
@@ -71,12 +73,37 @@ class MainActivity2 : AppCompatActivity(),RecipeAdapter.OnItemClickListener  {
         })
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here.
+        val id = item.getItemId()
+
+        if (id == R.id.action_one) {
+            val intent = Intent(this@MainActivity2, MainActivity4::class.java)
+            intent.putExtra("fav","Categories");
+            startActivity(intent)
+            return true
+        }
+        if (id == R.id.action_two) {
+            val intent = Intent(this@MainActivity2, MainActivity4::class.java)
+            intent.putExtra("fav","Recipes");
+            startActivity(intent)
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+
+    }
     override fun onItemClick(position: Int) {
 
-        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
         if (recipeResponse.recipes?.get(position)?.isLiked==false){
             getSharedPreferences("Recipes", Context.MODE_PRIVATE).edit().apply{
-                putBoolean(recipeResponse.recipes?.get(position)?.idMeal,true)
+                putBoolean(recipeResponse.recipes?.get(position)?.strMeal,true)
                 apply()
             }
             recipeResponse.recipes?.get(position)?.isLiked=true
@@ -84,7 +111,7 @@ class MainActivity2 : AppCompatActivity(),RecipeAdapter.OnItemClickListener  {
         }
         else {
             getSharedPreferences("Recipes", Context.MODE_PRIVATE).edit().apply{
-                putBoolean(recipeResponse.recipes?.get(position)?.idMeal,false)
+                putBoolean(recipeResponse.recipes?.get(position)?.strMeal,false)
                 apply()
             }
             recipeResponse.recipes?.get(position)?.isLiked=false

@@ -33,12 +33,12 @@ class CategoryAdapter(private val context: Context,val categories: List<Category
 
        }
         context.getSharedPreferences("Categories", Context.MODE_PRIVATE)
-            .getBoolean(myItem.idCategory, false).let{
+            .getBoolean(myItem.strCategory, false).let{
                 if (!it){
-                    holder.like_button.setImageResource(R.drawable.heart_off)
+                    holder.like_button.setImageResource(R.drawable.star_off)
                 }
                 else {
-                    holder.like_button.setImageResource(R.drawable.heart_on)
+                    holder.like_button.setImageResource(R.drawable.star_on)
                 }
 
 
