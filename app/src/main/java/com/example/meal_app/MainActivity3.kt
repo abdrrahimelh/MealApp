@@ -81,14 +81,14 @@ class MainActivity3 : AppCompatActivity() {
                     runOnUiThread {
 
                            if (len != null) {
-                               Rl.getLayoutParams().height = calculateTextHeight(instruction, len+count*10)
+                               Rl.getLayoutParams().height = calculateTextHeight(instruction, len+count*20)
                            }
 
 
                         textViewInstructions.text  = "STEP BY STEP\n\n\n" + descriptionResponse.description?.get(0)?.strInstructions;
                         textViewCategory.text = descriptionResponse.description?.get(0)?.strCategory;
                         textViewRecipe.text = descriptionResponse.description?.get(0)?.strMeal;
-                            if( descriptionResponse.description?.get(0)?.strYoutube != null || !(descriptionResponse.description?.get(0)?.strYoutube.equals("")) )
+                            if( descriptionResponse.description?.get(0)?.strYoutube != null && !(descriptionResponse.description?.get(0)?.strYoutube.equals("")) )
                             {
                                 textYoutube.text = descriptionResponse.description?.get(0)?.strYoutube;
 
